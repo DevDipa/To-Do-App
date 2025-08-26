@@ -21,7 +21,7 @@ class Task {
         System.out.println();
     }
 
-    public static void displayMenu() {
+    public static int displayMenu() {
         System.out.println("Please select one of the following:");
         System.out.println("-----------------------------------");
         System.out.println("|1. Create a task                 |");
@@ -30,11 +30,36 @@ class Task {
         System.out.println("|4. Delete a task                 |");
         System.out.println("|5. Exit                          |");
         System.out.println("-----------------------------------");
+
+        Scanner obj = new Scanner(System.in);
+
         System.out.print("Your choice (1-5):");
+        int choice = obj.nextInt();
+        obj.close();
+        return choice;
     }
 
     public void createTask() {
-              
+        System.out.println("***************");
+        System.out.println("*Create a Task*");
+        System.out.println("***************");
+        System.out.println();
+        System.out.println("Please enter the following:");
+        System.out.println("-----------------------------------");
+        
+        Scanner obj = new Scanner(System.in);
+
+        System.out.print("Id:");
+        setId(obj.nextInt());
+        obj.nextLine();
+        System.out.println("Description (max length: 25):");
+        this.description = obj.nextLine();
+        System.out.println("Deadline (yyyy/mm/dd):");
+        this.deadline = obj.nextLine();
+        System.out.println("Status (Pending/Done):");
+        this.status = obj.nextLine();
+        obj.close();
+       
          
     }
 
@@ -56,10 +81,8 @@ class Task {
 public class ToDoApp { 
     public static void main(String[] args) {
             Task.welcomeMessage();
-            Task.displayMenu();
-            
-            Scanner obj = new Scanner(System.in);
-            int choice = obj.nextInt();
+            int choice = Task.displayMenu();
+           
 
             switch(choice) {
             case 1: 
@@ -91,6 +114,6 @@ public class ToDoApp {
                 System.out.println("Invalid input:(\n Redirecting you to the Main Menu...");
                 Task.displayMenu();
             }
-            obj.close();      
+             
     }
 }

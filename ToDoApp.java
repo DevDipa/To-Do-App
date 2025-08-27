@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 class Task {
     private int id;
@@ -35,11 +39,11 @@ class Task {
 
         System.out.print("Your choice (1-5):");
         int choice = obj.nextInt();
-        obj.close();
         return choice;
     }
 
     public void createTask() {
+        System.out.println();
         System.out.println("***************");
         System.out.println("*Create a Task*");
         System.out.println("***************");
@@ -58,13 +62,41 @@ class Task {
         this.deadline = obj.nextLine();
         System.out.println("Status (Pending/Done):");
         this.status = obj.nextLine();
-        obj.close();
        
-         
+        try {
+            File file = new File("ToDoList.txt");
+
+            if (file.length() == 0) {
+            FileWriter writer1 = new FileWriter("ToDoList.txt");
+            writer1.write("******************************To-Do******************************\n");
+            writer1.write("_________________________________________________________________\n");
+            writer1.write("| Id |          Description          |   Deadline    |  Status  |\n");
+            writer1.write("_________________________________________________________________\n");
+            writer1.close(); 
+            }   
+       } catch (IOException e) {
+             System.out.println("Sorry, unable to adorn the file 'ToDoList.txt'. ERROR: " + e);
+         } 
+
+
+      try {
+            FileWriter writer2 = new FileWriter("ToDoList.txt", true);
+            writer2.write("| " + id + "  | " + description + "            | " + deadline + "    | " + status + "\n" );
+            writer2.close(); 
+            System.out.println("-----------------------------------");   
+            System.out.println("Task added successfully!");
+      } catch (IOException e) {
+             System.out.println("Sorry, unable to write to the file 'ToDoList.txt'. ERROR: " + e);
+        } finally {
+               System.out.println("Exiting the program...");
+               System.exit(1);
+          }
+
+     
     }
 
     public static void viewList() {
-        
+ 
     }
 
     public static void updateList() {
@@ -111,9 +143,9 @@ public class ToDoApp {
                 break;
 
             default:
-                System.out.println("Invalid input:(\n Redirecting you to the Main Menu...");
+                System.out.println("Invalid input:(\n Exiting the program...");
                 Task.displayMenu();
             }
-             
+                
     }
 }

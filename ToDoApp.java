@@ -96,9 +96,27 @@ class Task {
     }
 
     public static void viewList() {
- 
-    }
+        
+        try {
+            File read = new File("ToDoList.txt");
+            Scanner obj = new Scanner(read);
 
+            while (obj.hasNextLine()) {
+                String data = obj.nextLine();
+                System.out.println(data);
+            }
+            obj.close();
+            System.out.println("_________________________________________________________________");
+            System.out.println("That's it for now:)");
+        } catch (FileNotFoundException e) {
+              System.out.println("Sorry, unable to read the list. ERROR: " + e);
+          } finally {
+                System.out.println("Exiting the program...");
+                System.exit(1);
+          }
+    }
+        
+ 
     public static void updateList() {
         
     }

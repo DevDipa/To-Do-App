@@ -197,6 +197,7 @@ class Task {
         Scanner obj = new Scanner(System.in);
         String idDelete = obj.nextLine();
         boolean idFound = false;
+        String str = "";
 
         ArrayList<String> lines = new ArrayList<>(); 
 
@@ -216,7 +217,7 @@ class Task {
                 System.out.println(data);
                  System.out.println("_________________________________________________________________");
                 System.out.print("Are you sure you want to delete? (y/n):");
-                String str = obj.nextLine();
+                str = obj.nextLine();
                 if (str.equals("y")) {
                    continue;
                 } 
@@ -233,7 +234,11 @@ class Task {
         writer.close();
 
         if (idFound) {
+            if (str.equals("y")) {
             System.out.println("Task deleted successfully!");
+            } else {
+                System.out.println("Deletion cancelled!");
+            }
         } else {
             System.out.println("There's no task with the id " + idDelete + ".");
         }

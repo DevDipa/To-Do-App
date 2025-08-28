@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 class Task {
     private int id;
@@ -117,11 +118,75 @@ class Task {
     }
         
  
-    public static void updateList() {
+    public void updateList() {
+        System.out.println();
+        System.out.println("*****************");
+        System.out.println("*Update the List*");
+        System.out.println("*****************");
+        System.out.println();
+        System.out.print("Please enter the Id of the task to update:");
         
-    }
+        Scanner obj = new Scanner(System.in);
+        String idUpdate = obj.nextLine();
+        boolean idFound = false;
 
-    public static void deleteTask() {
+        ArrayList<String> lines = new ArrayList<>(); //to store the list's content
+
+    try {
+        File reader = new File("ToDoList.txt");
+        Scanner scanner = new Scanner(reader);
+
+        while (scanner.hasNextLine()) {
+            String data = scanner.nextLine();
+            String[] parts = data.split("\\|");
+
+            if (parts.length > 1 && parts[1].trim().equals(idUpdate)) {
+                idFound = true;
+
+                System.out.println("\nHere's your task " + idUpdate + ":");
+                System.out.println(data);
+
+                Scanner update = new Scanner(System.in);
+                System.out.print("New Id: ");
+                String newId = update.nextLine();
+                System.out.print("New description: ");
+                String newDescription = update.nextLine();
+                System.out.print("New deadline (yyyy/mm/dd): ");
+                String newDeadline = update.nextLine();
+                System.out.print("New status (Pending/Done): ");
+                String newStatus = update.nextLine();
+
+                data = "| " + newId + "  | " + newDescription + "            | " + newDeadline + "    | " + newStatus;
+            }
+
+            lines.add(data);
+        }
+        scanner.close();
+
+        // to overwrite the list
+        FileWriter writer = new FileWriter("ToDoList.txt");
+        for (String line : lines) {
+            writer.write(line + "\n");
+        }
+        writer.close();
+
+        if (idFound) {
+            System.out.println("Task updated successfully!");
+        } else {
+            System.out.println("There's no task with the id " + idUpdate + ".");
+        }
+
+    } catch (FileNotFoundException e) {
+        System.out.println("Sorry, unable to retrieve the list. ERROR: " + e);
+    } catch (IOException e) {
+        System.out.println("Error updating file: " + e);
+    } finally {
+        System.out.println("Exiting the program...");
+        System.exit(0);
+    }
+}
+
+    public void deleteTask() {
         
     }
 
@@ -133,11 +198,11 @@ public class ToDoApp {
             Task.welcomeMessage();
             int choice = Task.displayMenu();
            
+            Task task = new Task();
 
             switch(choice) {
             case 1: 
-                Task objT = new Task();
-                objT.createTask();
+                task.createTask();
                 break;
 
             case 2:
@@ -145,11 +210,11 @@ public class ToDoApp {
                 break;
 
             case 3:
-                Task.updateList();
+                task.updateList();
                 break;
 
             case 4:
-                Task.deleteTask();
+                task.deleteTask();
                 break;
 
             case 5:
@@ -162,7 +227,7 @@ public class ToDoApp {
 
             default:
                 System.out.println("Invalid input:(\n Exiting the program...");
-                Task.displayMenu();
+                System.exit(0);
             }
                 
     }

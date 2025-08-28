@@ -187,11 +187,68 @@ class Task {
 }
 
     public void deleteTask() {
+        System.out.println();
+        System.out.println("***************");
+        System.out.println("*Delete a Task*");
+        System.out.println("***************");
+        System.out.println();
+        System.out.print("Please enter the Id of the task to delete:");
         
+        Scanner obj = new Scanner(System.in);
+        String idDelete = obj.nextLine();
+        boolean idFound = false;
+
+        ArrayList<String> lines = new ArrayList<>(); 
+
+
+    try {
+        File reader = new File("ToDoList.txt");
+        Scanner scanner = new Scanner(reader);
+
+        while (scanner.hasNextLine()) {
+            String data = scanner.nextLine();
+            String[] parts = data.split("\\|");
+
+            if (parts.length > 1 && parts[1].trim().equals(idDelete)) {
+                idFound = true;
+
+                System.out.println("\nHere's your task " + idDelete + ":");
+                System.out.println(data);
+                 System.out.println("_________________________________________________________________");
+                System.out.print("Are you sure you want to delete? (y/n):");
+                String str = obj.nextLine();
+                if (str.equals("y")) {
+                   continue;
+                } 
+            }
+
+            lines.add(data);
+        }
+        scanner.close();
+
+        FileWriter writer = new FileWriter("ToDoList.txt");
+        for (String line : lines) {
+            writer.write(line + "\n");
+        }
+        writer.close();
+
+        if (idFound) {
+            System.out.println("Task deleted successfully!");
+        } else {
+            System.out.println("There's no task with the id " + idDelete + ".");
+        }
+
+    } catch (FileNotFoundException e) {
+        System.out.println("Sorry, unable to retrieve the list. ERROR: " + e);
+    } catch (IOException e) {
+        System.out.println("Error deleting file: " + e);
+    } finally {
+        System.out.println("Exiting the program...");
+        System.exit(0);
     }
-
 }
-
+        
+}
 
 public class ToDoApp { 
     public static void main(String[] args) {
